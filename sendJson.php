@@ -1,7 +1,25 @@
 #!/usr/bin/php -q
 <?php
- 
-$url = "http://amasa3w:Cris1704@srkmloadtest.mutua.es/wsRest/rc3/apirec/sendDeploy";
+
+$propertiesFile="_mma.properties";
+if ( ! file_exists($propertiesFile) ) {
+  die("Error NO EXISTE archivo de configuracion: [".$propertiesFile."]".PHP_EOL); 
+} else {
+  $userMM=$passMM="";
+  $fp=fopen($propertiesFile,"r") or die("Error NO PUEDO LEER archivo de configuracion: [".$propertiesFile."]".PHP_EOL); 
+  while(!feof($fp)){
+    $arrLine=explode("=",fgets($fp));
+    if ( $arrLine[0] == "USERMM" ) { $userMM=trim($arrLine[1]); }
+    if ( $arrLine[0] == "PASSMM" ) { $passMM=trim($arrLine[1]); }
+  }
+  fclose($fp);
+  if ( strlen($userMM) == 0 || strlen($passMM) == 0 ) {
+    die("Error NO EXISTEN Variables de configuracion: [".$userMM.":".$passMM."]".PHP_EOL); 
+  } 
+}
+
+$url = "http://".$userMM.":".$passMM."@srkmloadtest.mutua.es/wsRest/rc3/apirec/sendDeploy";
+
 $json_file = array(
                 "status" => "failed",
                 "credential" => "mmaWebDeploy",
