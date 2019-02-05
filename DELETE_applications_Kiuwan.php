@@ -3,7 +3,7 @@
 include 'functionsKiuwan.php';
 
 if ($argc < 2 ) {
-    exit( "Usage: ".$argv[0]." <ApplicationName>\n" );
+    exit( "Usage: ".$argv[0]." <ApplicationName>".PHP_EOL );
 }
 $APPL=$argv[1];
 

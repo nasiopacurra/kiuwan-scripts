@@ -1,9 +1,22 @@
 <?php
 
-// userAPI
-// $credentials="dXNlckFQSTp1c2VyX0FQSV8yMDE4";
-// amateos@mutua.es
-$credentials="YW1hdGVvc0BtdXR1YS5lczpLMXV3YW4yMDE3";
+$propertiesFile="_kiuwan.properties";
+if ( ! file_exists($propertiesFile) ) {
+  die("Error NO EXISTE archivo de configuracion: [".$propertiesFile."]".PHP_EOL); 
+} else {
+  $userKW=$passKW="";
+  $fp=fopen($propertiesFile,"r") or die("Error NO PUEDO LEER archivo de configuracion: [".$propertiesFile."]".PHP_EOL); 
+  while(!feof($fp)){
+    $arrLine=explode("=",fgets($fp));
+    if ( $arrLine[0] == "USERKW" ) { $userKW=trim($arrLine[1]); }
+    if ( $arrLine[0] == "PASSKW" ) { $passKW=trim($arrLine[1]); }
+  }
+  fclose($fp);
+  if ( strlen($userKW) == 0 || strlen($passKW) == 0 ) {
+    die("Error NO EXISTEN Variables de configuracion: [".$userKW.":".$passKW."]".PHP_EOL); 
+  } 
+}
+$credentials=base64_encode($userKW.":".$passKW);
 $curl="https://api.kiuwan.com/";
 
 function kiuwanCall($path) {
